@@ -4,17 +4,9 @@ import 'package:flutter_application_new/widget/taskWidget.dart';
 
 import '../TaskModel/taskModel.dart';
 
-class IncompleteScreen extends StatefulWidget {
-  @override
-  State<IncompleteScreen> createState() => _IncompleteScreenState();
-}
-
-class _IncompleteScreenState extends State<IncompleteScreen> {
-  void checkTask(TaskModel taskModel) {
-    int index = tasks.indexOf(taskModel);
-    tasks[index].isComplete = !tasks[index].isComplete;
-    setState(() {});
-  }
+class IncompleteScreen extends StatelessWidget {
+  Function function;
+  IncompleteScreen(this.function);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +15,7 @@ class _IncompleteScreenState extends State<IncompleteScreen> {
       itemBuilder: (context, index) {
         return TaskWidget(
             tasks.where((element) => !element.isComplete).toList()[index],
-            checkTask);
+            function);
       },
     );
   }
