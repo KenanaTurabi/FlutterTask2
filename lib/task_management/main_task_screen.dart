@@ -25,6 +25,7 @@ class _MainTaskScreenState extends State<MainTaskScreen>
   }
 
   late TabController tabController;
+  //i made the initialize inide method coz we cant use (this) keyword  in the class except inside a method
   initalizeTabController() {
     tabController = TabController(
         length: 3, vsync: this); //tabController explect needs statefull class
@@ -35,6 +36,11 @@ class _MainTaskScreenState extends State<MainTaskScreen>
     // TODO: implement initState
     super.initState();
     initalizeTabController();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
   }
 
   @override

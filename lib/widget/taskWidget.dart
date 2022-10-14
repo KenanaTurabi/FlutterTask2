@@ -13,7 +13,7 @@ class TaskWidget extends StatelessWidget {
       value: taskmodel
           .isComplete, //widget: to reach the variables from the stateful class
       onChanged: (v) {
-        function!(taskmodel);
+        function!(taskmodel); //! not a trigger its for nullable
         //  setState(
         //    () {}); //the problem is that setstate()will make rebuild to the nearest build function
         //, so the rebuild will be on the level of widget only not on the level of the screen

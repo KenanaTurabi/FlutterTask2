@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_new/data/Screens/allPosts.dart';
+import 'package:flutter_application_new/data/Screens/homePageScreen.dart';
+import 'package:flutter_application_new/data/Screens/likedPosts.dart';
 import 'package:flutter_application_new/task_management/main_task_screen.dart';
 
 import 'data.dart';
@@ -10,7 +13,7 @@ import 'news.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
-    home: MainTaskScreen(),
+    home: HomePageScreen(),
   ));
 }
 
