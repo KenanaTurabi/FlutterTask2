@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_application_new/screens/allScreen.dart';
 import 'package:flutter_application_new/screens/completeScreen.dart';
 import 'package:flutter_application_new/screens/incompleteScreen.dart';
@@ -46,10 +47,23 @@ class _MainTaskScreenState extends State<MainTaskScreen>
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait
-        ? Scaffold(
-            drawer: Drawer(
-              child: Column(children: [
-                /*
+        ? ScaffoldClass(tabController, checkTask)
+        : Scaffold(
+            appBar: AppBarCustom(tabController),
+            body: ScaffoldClass2(tabController, checkTask));
+  }
+}
+
+class ScaffoldClass extends StatelessWidget {
+  Function function;
+  TabController tabController;
+  ScaffoldClass(this.tabController, this.function);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        drawer: Drawer(
+          child: Column(children: [
+            /*
             Container(
               child: Image.asset('images/img5.jpg', fit: BoxFit.cover),
               color: Colors.blue,
@@ -57,110 +71,133 @@ class _MainTaskScreenState extends State<MainTaskScreen>
               width: 600,
             ),
             */
-                UserAccountsDrawerHeader(
-                  accountName: Text('Kenana Turabi'),
-                  accountEmail: Text('kenanaturabi@gmail.com'),
-                  currentAccountPicture: CircleAvatar(child: Text('K')),
-                ),
-                ListTile(
-                  onTap: () {
-                    tabController.animateTo(0);
-                  },
-                  title: Text('All Tasks'),
-                  subtitle: Text("go to All Tasks Tab"),
-                  leading: Icon(Icons.list),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                ),
-                ListTile(
-                  title: Text('Complete Tasks'),
-                  subtitle: Text('Go to complete tasks Tab'),
-                  leading: Icon(Icons.done),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    tabController.animateTo(1);
-                  },
-                ),
-                ListTile(
-                    title: Text('Incomplete Tasks'),
-                    subtitle: Text('Go to Incomplete tasks Tab'),
-                    leading: Icon(Icons.cancel),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {
-                      tabController.animateTo(2);
-                    }),
-              ]),
+            UserAccountsDrawerHeader(
+              accountName: Text('Kenana Turabi'),
+              accountEmail: Text('kenanaturabi@gmail.com'),
+              currentAccountPicture: CircleAvatar(child: Text('K')),
             ),
-            appBar: AppBar(
-              title: Text('Task Management'),
-              bottom: TabBar(controller: tabController, tabs: [
-                Tab(text: 'All Tasks'),
-                Tab(text: 'complete Tasks'),
-                Tab(text: 'Incomplete Tasks'),
-              ]),
+            ListTile(
+              onTap: () {
+                tabController.animateTo(0);
+              },
+              title: Text('All Tasks'),
+              subtitle: Text("go to All Tasks Tab"),
+              leading: Icon(Icons.list),
+              trailing: Icon(Icons.arrow_forward_ios),
             ),
-            body: Container(
-              child: TabBarView(
-                controller: tabController,
-                children: [
-                  Allscreen(checkTask),
-                  CompleteScreen(checkTask),
-                  IncompleteScreen(checkTask),
-                ],
-              ),
-            ))
-        : Scaffold(
-            appBar: AppBar(
-              title: Text('Task Management'),
-              bottom: TabBar(controller: tabController, tabs: [
-                Tab(text: 'All Tasks'),
-                Tab(text: 'complete Tasks'),
-                Tab(text: 'Incomplete Tasks'),
-              ]),
+            ListTile(
+              title: Text('Complete Tasks'),
+              subtitle: Text('Go to complete tasks Tab'),
+              leading: Icon(Icons.done),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                tabController.animateTo(1);
+              },
             ),
-            body: Row(
-              children: [
-                Expanded(
-                  child: Column(children: [
-                    ListTile(
-                      onTap: () {
-                        tabController.animateTo(0);
-                      },
-                      title: Text('All Tasks'),
-                      subtitle: Text("go to All Tasks Tab"),
-                      leading: Icon(Icons.list),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                    ),
-                    ListTile(
-                      title: Text('Complete Tasks'),
-                      subtitle: Text('Go to complete tasks Tab'),
-                      leading: Icon(Icons.done),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                      onTap: () {
-                        tabController.animateTo(1);
-                      },
-                    ),
-                    ListTile(
-                        title: Text('Incomplete Tasks'),
-                        subtitle: Text('Go to Incomplete tasks Tab'),
-                        leading: Icon(Icons.cancel),
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        onTap: () {
-                          tabController.animateTo(2);
-                        }),
-                  ]),
-                ),
-                Expanded(
-                    child: Container(
-                  child: TabBarView(
-                    controller: tabController,
-                    children: [
-                      Allscreen(checkTask),
-                      CompleteScreen(checkTask),
-                      IncompleteScreen(checkTask),
-                    ],
-                  ),
-                ))
-              ],
-            ));
+            ListTile(
+                title: Text('Incomplete Tasks'),
+                subtitle: Text('Go to Incomplete tasks Tab'),
+                leading: Icon(Icons.cancel),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  tabController.animateTo(2);
+                }),
+          ]),
+        ),
+        appBar: AppBar(
+          title: Text('Task Management'),
+          bottom: TabBar(controller: tabController, tabs: [
+            Tab(text: 'All Tasks'),
+            Tab(text: 'complete Tasks'),
+            Tab(text: 'Incomplete Tasks'),
+          ]),
+        ),
+        body: Container(
+          child: TabBarView(
+            controller: tabController,
+            children: [
+              Allscreen(function),
+              CompleteScreen(function),
+              IncompleteScreen(function),
+            ],
+          ),
+        ));
+  }
+}
+
+class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
+  TabController tabController;
+  AppBarCustom(this.tabController);
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Expanded(
+      child: AppBar(
+        title: Text('Task Management'),
+        bottom: TabBar(controller: tabController, tabs: [
+          Tab(text: 'All Tasks'),
+          Tab(text: 'complete Tasks'),
+          Tab(text: 'Incomplete Tasks'),
+        ]),
+      ),
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => AppBar().preferredSize;
+}
+
+class ScaffoldClass2 extends StatelessWidget {
+  TabController tabController;
+  Function function;
+  ScaffoldClass2(this.tabController, this.function);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(children: [
+            ListTile(
+              onTap: () {
+                tabController.animateTo(0);
+              },
+              title: Text('All Tasks'),
+              subtitle: Text("go to All Tasks Tab"),
+              leading: Icon(Icons.list),
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
+            ListTile(
+              title: Text('Complete Tasks'),
+              subtitle: Text('Go to complete tasks Tab'),
+              leading: Icon(Icons.done),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                tabController.animateTo(1);
+              },
+            ),
+            ListTile(
+                title: Text('Incomplete Tasks'),
+                subtitle: Text('Go to Incomplete tasks Tab'),
+                leading: Icon(Icons.cancel),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  tabController.animateTo(2);
+                }),
+          ]),
+        ),
+        Expanded(
+            child: Container(
+          child: TabBarView(
+            controller: tabController,
+            children: [
+              Allscreen(function),
+              CompleteScreen(function),
+              IncompleteScreen(function),
+            ],
+          ),
+        ))
+      ],
+    );
   }
 }
