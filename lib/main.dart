@@ -13,7 +13,7 @@ import 'news.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
-    home: HomePageScreen(),
+    home: MainTaskScreen(),
   ));
 }
 
